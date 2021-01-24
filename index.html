@@ -1,0 +1,646 @@
+<!-- 1610 1/2 -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>家計簿アプリ</title>
+
+  <link rel="icon" type="image/png" href="./assets/images/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/images/favicon.png">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@2.0.2/destyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <link rel="stylesheet" href="./assets/styles/stylesheet.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./assets/scripts/libraries/official_easypiechart.js"></script>
+  <script src="./assets/scripts/index.js" defer type="module"></script>
+</head>
+
+<body class="font-cute">
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">家計簿</a>
+    </div>
+  </nav>
+
+  <div class="amber lighten-2" id="input-card">
+    <div class="row margin-bottom-0">
+      <div class="col s12">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title center-align">入力カード</span>
+            <div class="switch" id="js-input-card__switch-buttton">
+              <label>
+                支出
+                <input type="checkbox" name="out-or-in">
+                <span class="lever"></span>
+                収入
+              </label>
+            </div>
+            <div class="input-field">
+              <input type="text" class="datepicker" id="input-card__input-date">
+              <label id="input-card__input-date-label">日付</label>
+            </div>
+            <div class="input-field">
+              <input type="number" pattern="\d*" id="input-card__input--how-much">
+              <label for="howmuch">金額</label>
+            </div>
+            <div class="input-field">
+              <input type="text" id="input-card__input-things" data-length="15" class="input--charactor-counter">
+              <label for="purpose">用途</label>
+            </div>
+            <div class="input-field">
+              <a class="modal-trigger" href="#modal__input-card__radio-buttons-category"><input id="input-card__input-category" type="text" class="validate text--material-black"></a>
+              <label for="input-card__input-category">カテゴリー</label>
+            </div>
+            <div class="input-field">
+              <a class="modal-trigger" href="#modal__input-card__radio-buttons-howtopay"><input id="input-card__input-howtopay" type="text" class="validate text--material-black"></a>
+              <label for="input-card__input-howtopay">支払い手段</label>
+            </div>
+            <a class="waves-effect waves-light btn" id="input-card__button-add">データを追加</a>
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal__input-card__setting">設定</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- report -->
+
+  <!-- ここから下、１日のレポート -->
+
+  <div class="row margin-bottom-0" id="report">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s3"><a href="#day-report">今日</a></li>
+        <li class="tab col s3"><a href="#report__week" id="tab__week">週間</a></li>
+        <li class="tab col s3"><a href="#report__month">月間</a></li>
+        <li class="tab col s3"><a href="#report__year">年間</a></li>
+      </ul>
+    </div>
+    <div id="day-report" class="col s12 cyan lighten-3">
+
+      <div class="center-align">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#report__day__today">今日</a></li>
+          <li class="tab col s3"><a href="#report__day__yesterday">昨日</a></li>
+        </ul>
+      </div>
+
+      <div id="report__day__today">
+        <div class="card">
+          <div class="card-content">
+            <h5 class="center-align">支出 ￥<span id="day-report__span-out">0</span></h5>
+            <h5 class="center-align">収入 ￥<span id="day-report__span-in">0</span></h5>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content padding-side-little">
+            <span class="card-title">今日の明細</span>
+            <table class="centered" id="report__day__today__table">
+              <thead>
+                <tr>
+                  <th>カテゴリー</th>
+                  <th>用途</th>
+                  <th>金額</th>
+                  <th>支払い方法</th>
+                </tr>
+              </thead>
+              <template id="report__day__today__template-table-tbody">
+                <tbody>
+                  <tr class="modal-trigger" href="#modal__report__day__modify-record">
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </template>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="report__day__yesterday" class="display-none">
+        <div class="card">
+          <div class="card-content">
+            <h5 class="center-align">収入 ￥<span id="report__day__yesterday__span-out">0</span></h5>
+            <h5 class="center-align">支出 ￥<span id="report__day__yesterday__span-in">0</span></h5>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content display-none">
+            <canvas id="" width="300" height="300"></canvas>
+            <canvas id="" width="300" height="300"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content padding-side-little">
+            <span class="card-title">昨日の明細</span>
+            <table class="centered" id="report__day__yesterday__table">
+              <thead>
+                <tr>
+                  <th>カテゴリー</th>
+                  <th>用途</th>
+                  <th>金額</th>
+                  <th>支払い方法</th>
+                </tr>
+              </thead>
+              <template id="report__day__yesterday__template-table-tbody">
+                <tbody>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </template>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s5 offset-s7">
+          <a class="waves-effect waves-light btn modal-trigger amber" href="#modal__modify-record">データを修正</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ここから上、１日のレポート -->
+
+    <!-- ここから下、週間のレポート -->
+
+    <div id="report__week" class="col s12 teal lighten-3">
+      <div class="center-align">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#report__week__this-week" class="active">今週</a></li>
+          <li class="tab col s3"><a href="#report__week__last-week">先週</a></li>
+        </ul>
+      </div>
+      <div id="report__week__this-week">
+        <div class="card" id="report__week__this-week__card-general">
+          <div class="card-content">
+            <h5 class="center-align">支出 ￥<span id="report__week__this-week__card-general__span-out">0</span></h5>
+            <h5 class="center-align">収入 ￥<span id="report__week__this-week__card-general__span-in">0</span></h5>
+          </div>
+        </div>
+        <div class="card" id="report__week__this-week__card-bar-out">
+          <div class="card-content">
+            <span class="card-title">今週使った金額</span>
+            <canvas width="400" height="400"></canvas>
+          </div>
+        </div>
+        <div class="card" id="report__week__this-week__card-category-out">
+          <div class="card-content">
+            <span class="card-title">カテゴリーごとに</span>
+            <canvas width="400" height="400"></canvas>
+          </div>
+        </div>
+        <div class="card" id="report__week__this-week__card-howtopay-out">
+          <div class="card-content">
+            <span class="card-title">支払い方法ごとに</span>
+            <canvas width="400" height="400"></canvas>
+          </div>
+        </div>
+        <ul class="collapsible border-0 box-shadow-0 font-bold">
+          <li>
+            <div class="collapsible-header border-0 collapsible-header--box-shadow active">収入</div>
+            <div class="collapsible-body border-0 padding-0">
+              <div class="card" id="report__week__this-week__card-bar-in">
+                <div class="card-content">
+                  <span class="card-title">今週入った金額</span>
+                  <canvas width="400" height="400"></canvas>
+                </div>
+              </div>
+              <div class="card" id="report__week__this-week__card-category-in">
+                <div class="card-content">
+                  <span class="card-title">カテゴリーごとに</span>
+                  <canvas width="400" height="400"></canvas>
+                </div>
+              </div>
+              <div class="card" id="report__week__this-week__card-howtopay-in">
+                <div class="card-content">
+                  <span class="card-title">支払い方法ごとに</span>
+                  <canvas width="400" height="400"></canvas>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div id="report__week__last-week">
+        <div class="card" id="report__week__last-week__card-general">
+          <div class="card-content">
+            <h5 class="center-align">支出 ￥<span id="report__week__last-week__card-general__span-out">0</span></h5>
+            <h5 class="center-align">収入 ￥<span id="report__week__last-week__card-general__span-in">0</span></h5>
+          </div>
+        </div>
+        <div class="card" id="report__week__last-week__card-bar-out">
+          <div class="card-content">
+            <span class="card-title">先週使った金額</span>
+            <canvas width="400" height="400"></canvas>
+          </div>
+        </div>
+        <div class="card" id="report__week__last-week__card-category-out">
+          <div class="card-content">
+            <span class="card-title">カテゴリーごとに</span>
+            <canvas width="400" height="400"></canvas>
+          </div>
+        </div>
+        <div class="card" id="report__week__last-week__card-howtopay-out">
+          <div class="card-content">
+            <span class="card-title">支払い方法ごとに</span>
+            <canvas width="400" height="400"></canvas>
+          </div>
+        </div>
+        <ul class="collapsible border-0 box-shadow-0 font-bold">
+          <li>
+            <div class="collapsible-header border-0 collapsible-header--box-shadow">収入</div>
+            <div class="collapsible-body border-0 padding-0">
+              <div class="card" id="report__week__last-week__card-bar-in">
+                <div class="card-content">
+                  <span class="card-title">先週入った金額</span>
+                  <canvas width="400" height="400"></canvas>
+                </div>
+              </div>
+              <div class="card" id="report__week__last-week__card-category-in">
+                <div class="card-content">
+                  <span class="card-title">カテゴリーごとに</span>
+                  <canvas width="400" height="400"></canvas>
+                </div>
+              </div>
+              <div class="card" id="report__week__last-week__card-howtopay-in">
+                <div class="card-content">
+                  <span class="card-title">支払い方法ごとに</span>
+                  <canvas width="400" height="400"></canvas>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+    <!-- ここから上、週間レポート -->
+
+    <!-- ここから下、月間レポート -->
+
+    <div id="report__month" class="col s12 amber lighten-3">
+      <ul class="tabs">
+        <li class="tab col s3"><a href="#report__month__container-0">１月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-1">２月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-2">３月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-3">４月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-4">５月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-5">６月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-6">７月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-7">８月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-8">９月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-9">１０月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-10">１１月</a></li>
+        <li class="tab col s3"><a href="#report__month__container-11">１２月</a></li>
+      </ul>
+      <template id="report__month__template-wrapper">
+        <div>
+          <div class="card" id="report__month__card-general">
+            <div class="card-content">
+              <h5 class="center-align">支出 ￥<span id="report__month__card-general__span-out">0</span></h5>
+              <h5 class="center-align">収入 ￥<span id="report__month__card-general__span-in">0</span></h5>
+            </div>
+          </div>
+          <div class="card" id="report__month__card-out-category">
+            <div class="card-content">
+              <span class="card-title">カテゴリーごとに</span>
+              <canvas width="300" height="300"></canvas>
+            </div>
+          </div>
+          <div class="card" id="report__month__card-out-howtopay">
+            <div class="card-content">
+              <span class="card-title">支払い方法ごとに</span>
+              <canvas width="300" height="300"></canvas>
+            </div>
+          </div>
+          <div class="card" id="report__month__card-table">
+            <div class="card-content padding-side-little">
+              <span class="card-title"><span></span>月の明細</span>
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>カテゴリー</th>
+                    <th>金額</th>
+                  </tr>
+                </thead>
+                <template id="report__month__card-table__template-tbody">
+                  <tbody>
+                    <tr>
+                      <td>--</td>
+                      <td>--</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </table>
+            </div>
+          </div>
+          <ul class="collapsible border-0 box-shadow-0 font-bold font-bold">
+            <li>
+              <div class="collapsible-header border-0 collapsible-header--box-shadow">収入</div>
+              <div class="collapsible-body border-0 padding-0">
+                <div class="card" id="report__month__card-in-category">
+                  <div class="card-content">
+                    <span class="card-title">カテゴリーごとに</span>
+                    <canvas width="400" height="400"></canvas>
+                  </div>
+                </div>
+                <div class="card" id="report__month__card-in-howtopay">
+                  <div class="card-content">
+                    <span class="card-title">支払い方法ごとに</span>
+                    <canvas width="400" height="400"></canvas>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </template>
+    </div>
+
+    <!-- Report Year -->
+
+    <div id="report__year" class="col s12 blue-grey lighten-3">
+      <ul class="tabs">
+        <template>
+          <li class="tab col s3"><a href="#">----年</a></li>
+        </template>
+      </ul>
+      <template id="report__year__template-container">
+        <div>
+          <div class="card" id="report__year__card-general">
+            <div class="card-content">
+              <h5 class="center-align">支出 ￥<span id="report__year__card-general__span-out">0</span></h5>
+              <h5 class="center-align">収入 ￥<span id="report__year__card-general__span-in">0</span></h5>
+            </div>
+          </div>
+          <div class="card" id="report__year__card-bar-out">
+            <div class="card-content">
+              <span class="card-title">各月の支出</span>
+              <canvas width="300" height="300"></canvas>
+            </div>
+          </div>
+          <div class="card" id="report__year__card-out-category">
+            <div class="card-content">
+              <span class="card-title">カテゴリーごとに</span>
+              <canvas width="300" height="300"></canvas>
+            </div>
+          </div>
+          <div class="card" id="report__year__card-out-howtopay">
+            <div class="card-content">
+              <span class="card-title">支払い方法ごとに</span>
+              <canvas width="300" height="300"></canvas>
+            </div>
+          </div>
+          <div class="card" id="report__year__card-table">
+            <div class="card-content padding-side-little">
+              <span class="card-title"><span></span>年の明細</span>
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>カテゴリー</th>
+                    <th>金額</th>
+                  </tr>
+                </thead>
+                <template>
+                  <tbody>
+                    <tr>
+                      <td>--</td>
+                      <td>--</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </table>
+            </div>
+          </div>
+          <ul class="collapsible border-0 box-shadow-0 font-bold font-bold">
+            <li>
+              <div class="collapsible-header border-0 collapsible-header--box-shadow">収入</div>
+              <div class="collapsible-body border-0 padding-0">
+                <div class="card" id="report__year__card-bar-in">
+                  <div class="card-content">
+                    <span class="card-title">各月の収入</span>
+                    <canvas width="300" height="300"></canvas>
+                  </div>
+                </div>
+                <div class="card" id="report__year__card-in-category">
+                  <div class="card-content">
+                    <span class="card-title">カテゴリーごとに</span>
+                    <canvas width="400" height="400"></canvas>
+                  </div>
+                </div>
+                <div class="card" id="report__year__card-in-howtopay">
+                  <div class="card-content">
+                    <span class="card-title">支払い方法ごとに</span>
+                    <canvas width="400" height="400"></canvas>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <!-- Report Year -->
+
+  <!-- footer -->
+
+
+  <footer class="page-footer">
+    <div class="container">
+      <h5 class="white-text">About</h5>
+      <p>オリジナル家計簿アプリ</p>
+    </div>
+    <div class="footer-copyright">
+      <div class="container white-text">
+        © 2021 Designed by Otsuka in Tokyo.
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- footer -->
+
+
+  <!-- Modals -->
+
+
+  <div class="modal" id="modal__input-card__radio-buttons-category">
+    <div class="modal-content">
+      <h5>カテゴリーを選択</h5>
+      <template id="modal__input-card__radio-buttons-category__template-radio">
+        <p class="padding-top-bottom-10px">
+          <label>
+            <input name="modal__input-card__radio-buttons-category" type="radio" value="" class="modal-close" />
+            <span></span>
+          </label>
+        </p>
+      </template>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">取り消し</a>
+    </div>
+  </div>
+
+  <div class="modal" id="modal__input-card__radio-buttons-howtopay">
+    <div class="modal-content">
+      <h5>支払い方法を選択</h5>
+      <template id="modal__input-card__radio-buttons-howtopay__template-radio">
+        <p class="padding-top-bottom-10px">
+          <label>
+            <input name="modal__input-card__radio-buttons-howtopay" type="radio" value="" class="modal-close" />
+            <span></span>
+          </label>
+        </p>
+      </template>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">取り消し</a>
+    </div>
+  </div>
+
+  <div id="modal__input-card__setting" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h5>設定</h5>
+      <p class="margin-top-bottom-10px">カテゴリーと支払い手段の設定ができます。</p>
+      <form id="modal__input-card__setting__form-category">
+        <h6 class="font-bold margin-top-30px">・カテゴリーのオプション</h6>
+        <template id="modal__input-card__setting__template-checkbox-category">
+          <p class="margin-top-bottom-10px">
+            <label>
+              <input type="checkbox" checked="checked" />
+              <span></span>
+            </label>
+          </p>
+        </template>
+        <template id="modal__input-card__setting__form-category__template-input">
+          <div class="input-field" id="modal__input-card__setting__form-category__template-input__input-field">
+            <input id="modal__input-card__setting__form-category__template-input__input-field-__input" type="text" class="validate">
+            <label for="modal__input-card__setting__form-category__template-input__input-field-__input">新しいカテゴリー</label>
+          </div>
+        </template>
+      </form>
+      <a href="#!" class="waves-effect waves-green btn" id="modal__input-card__setting__button-add-category">入力</a>
+
+      <form id="modal__input-card__setting__form-howtopay">
+        <h6 class="font-bold margin-top-30px">・支払い方法のオプション</h6>
+        <template id="modal__input-card__setting__template-checkbox-howtopay">
+          <p class="margin-top-bottom-10px">
+            <label>
+              <input type="checkbox" checked="checked" />
+              <span></span>
+            </label>
+          </p>
+        </template>
+        <template id="input-card__setting-modal__template-input-howtopay">
+          <div class="input-field" id="input-card__setting-modal__div-input-howtopay">
+            <input id="input-card__setting-modal__input-add-howtopay" type="text" class="validate">
+            <label for="input-card__setting-modal__input-add-howtopay">新しいカテゴリー</label>
+          </div>
+        </template>
+      </form>
+      <a href="#!" class="waves-effect waves-green btn" id="modal__input-card__setting__button-add-howtopay">入力</a>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">取り消し</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn" id="input-card__setting-modal__button-decide">完了</a>
+    </div>
+  </div>
+
+  <div class="modal" id="modal__report__day__modify-record">
+    <div class="modal-content">
+      <h5>データを修正</h5>
+      <div class="switch">
+        <label>
+          支出
+          <input type="checkbox" name="out-or-in" id="modal__report__day__modify-record__switch">
+          <span class="lever"></span>
+          収入
+        </label>
+      </div>
+      <div class="input-field">
+        <input type="number" pattern="\d*" id="modal__report__day__modify-record__input-howmuch">
+        <label>金額</label>
+      </div>
+      <div class="input-field">
+        <input type="text" id="modal__report__day__modify-record__input-things">
+        <label>用途</label>
+      </div>
+      <div class="input-field">
+        <a class="modal-trigger" href="#modal__input-card__radio-buttons-category"><input id="modal__report__day__modify-record__input-category" type="text" class="validate text--material-black"></a>
+        <label>カテゴリー</label>
+      </div>
+      <div class="input-field">
+        <a class="modal-trigger" href="#modal__input-card__radio-buttons-howtopay"><input id="modal__report__day__modify-record__input-howtopay" type="text" class="validate text--material-black"></a>
+        <label>支払い手段</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="modal__report__day__modify-record__button-cancel">取り消し</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn red" id="modal__report__day__modify-record__button-delete">削除</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn" id="modal__report__day__modify-record__button-modify">修正</a>
+    </div>
+  </div>
+
+  <div class="modal" id="modal__modify-record">
+    <div class="modal-content padding-side-little">
+      <h5>修正したいデータの日時を選択</h5>
+      <div class="input-field margin-top-30px" id="modal__modify-record__datepicker__datepicker__input-field">
+        <input type="text" class="datepicker" id="modal__modify-record__datepicker__datepicker__input">
+        <label>日付</label>
+      </div>
+      <h5 id="selected-date"></h5>
+      <table class="centered" id="modal__modify-record__table">
+        <thead>
+          <tr>
+            <th>カテゴリー</th>
+            <th>用途</th>
+            <th>金額</th>
+            <th>支払い方法</th>
+          </tr>
+        </thead>
+        <template>
+          <tbody>
+            <tr class="modal-trigger" href="#modal__report__day__modify-record">
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </template>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="modal__modify-record__button-cancel"><i class="fas fa-times"></i></a>
+      <a href="#!" class="waves-effect waves-green btn" id="modal__modify-record__button-set-date">指定した日のデータを表示</a>
+    </div>
+  </div>
+
+  <!-- Modals -->
+
+
+</body>
+
+</html>
