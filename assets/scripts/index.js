@@ -24,6 +24,9 @@ import {
 import {
   fontActivate
 } from './functions/fontActivate.js';
+import {
+  drawEasyPieCharts
+} from './charts/original_easypiechart.js';
 
 class App {
   constructor() {
@@ -35,6 +38,7 @@ class App {
     new WeekReport();
     new MonthReport();
     new YearReport();
+    // drawEasyPieCharts();
   }
 }
 

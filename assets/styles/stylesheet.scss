@@ -129,4 +129,25 @@ canvas {
 .fas {
   margin-right: 7px;
 }
+
+.chart {
+
+  p {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    font-size: 150%;
+    text-align: center;
+  }
+
+  .span--sub {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100%;
+    text-align: center;
+  }
+}
 // test below
