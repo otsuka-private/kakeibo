@@ -35,9 +35,9 @@ class App {
     fontActivate();
     new InputCard();
     new DayReport();
-    new WeekReport();
     new MonthReport();
     new YearReport();
+    new WeekReport();
     // drawEasyPieCharts();
   }
 }

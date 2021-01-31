@@ -1,7 +1,5 @@
 import * as chartFunction from '../charts/original_chart.js';
 
-// 今週来週のエラー多いなあ 早く直そう
-
 export class WeekReport {
   constructor() {
     this.calcWeekData();
@@ -28,6 +26,7 @@ export class WeekReport {
         howToPay: {},
       },
     };
+
     thisWeekDataTemporaryObject[date.getDay()] = recordDataObject[date.getFullYear()][date.getMonth()][date.getDate()];
     for (let i = 1; i < day; i++) {
       date.setDate(date.getDate() - 1);
@@ -169,6 +168,7 @@ export class WeekReport {
       if (i == 6) {
         thisWeekOutValues.push(weekDataTemporaryObject.thisWeek[0].out);
         thisWeekInValues.push(weekDataTemporaryObject.thisWeek[0].in);
+        break;
       }
     }
     chartFunction.drawChartBar('report__week__this-week__card-bar-out', thisWeekOutValues, 'out', 'week');
