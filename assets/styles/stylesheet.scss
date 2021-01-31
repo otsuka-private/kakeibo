@@ -47,6 +47,10 @@ canvas {
   padding: 10px 0;
 }
 
+.padding-top-20px {
+  padding-top: 20px;
+}
+
 .margin-center {
   margin: 0 auto;
 }
@@ -58,7 +62,6 @@ canvas {
 .margin-top-bottom-10px {
   margin: 10px 0;
 }
-
 
 .margin-top-30px {
   margin-top: 30px;
@@ -120,9 +123,7 @@ canvas {
 }
 
 .collapsible-header--box-shadow {
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
-              0 3px 1px -2px rgba(0,0,0,0.12),
-              0 1px 5px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
 }
 
 .fab,
@@ -131,7 +132,6 @@ canvas {
 }
 
 .chart {
-
   p {
     position: absolute;
     top: 45%;
@@ -150,4 +150,9 @@ canvas {
     text-align: center;
   }
 }
+
+#modal__modify-record {
+  min-height: 60vh;
+}
+
 // test below

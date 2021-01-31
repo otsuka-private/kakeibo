@@ -124,6 +124,7 @@
                 </tbody>
               </template>
             </table>
+            <p class="padding-top-20px right-align amber-text text-darken-3" id="report__day__today__desription-phrase--modify">データをタップすると修正できます</p>
           </div>
         </div>
         <!-- <div class="card modal-trigger" href="#modal__chart-limit-progress">
@@ -177,8 +178,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s5 offset-s7">
-          <a class="waves-effect waves-light btn modal-trigger amber" href="#modal__modify-record">データを修正</a>
+        <div class="col s7 offset-s5">
+          <a class="waves-effect waves-light btn modal-trigger amber" href="#modal__modify-record">過去の明細・データ修正</a>
         </div>
       </div>
     </div>
@@ -543,7 +544,7 @@
         <template id="modal__input-card__setting__form-category__template-input">
           <div class="input-field" id="modal__input-card__setting__form-category__template-input__input-field">
             <input id="modal__input-card__setting__form-category__template-input__input-field-__input" type="text" class="validate">
-            <label for="modal__input-card__setting__form-category__template-input__input-field-__input">新しいカテゴリー</label>
+            <label for="modal__input-card__setting__form-category__template-input__input-field-__input">新しいカテゴリーを入力</label>
           </div>
         </template>
       </form>
@@ -562,7 +563,7 @@
         <template id="input-card__setting-modal__template-input-howtopay">
           <div class="input-field" id="input-card__setting-modal__div-input-howtopay">
             <input id="input-card__setting-modal__input-add-howtopay" type="text" class="validate">
-            <label for="input-card__setting-modal__input-add-howtopay">新しいカテゴリー</label>
+            <label for="input-card__setting-modal__input-add-howtopay">新しい支払い方法を入力</label>
           </div>
         </template>
       </form>
@@ -573,6 +574,45 @@
       <a href="#!" class="modal-close waves-effect waves-green btn" id="input-card__setting-modal__button-decide">完了</a>
     </div>
   </div>
+
+  <div class="modal" id="modal__modify-record">
+    <div class="modal-content padding-side-little">
+      <h5>参照したい日付を選択</h5>
+      <div class="input-field margin-top-30px" id="modal__modify-record__datepicker__datepicker__input-field">
+        <input type="text" class="datepicker" id="modal__modify-record__datepicker__datepicker__input">
+        <!-- <input type="text" class="modal-trigger" id="modal__modify-record__datepicker__datepicker__input" href="#modal__modify-record__modal-datepicker"> -->
+        <label>日付</label>
+      </div>
+      <!-- <h5 id="selected-date"></h5> -->
+      <p class="amber-text text-darken-3" id="modal__modify-record__description-phrase">日付を選ぶと下に明細が表示されます。</p>
+      <table class="centered" id="modal__modify-record__table">
+        <thead>
+          <tr>
+            <th>カテゴリー</th>
+            <th>用途</th>
+            <th>金額</th>
+            <th>支払い方法</th>
+          </tr>
+        </thead>
+        <template>
+          <tbody>
+            <tr class="modal-trigger" href="#modal__report__day__modify-record">
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </template>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="modal__modify-record__button-cancel"><i class="fas fa-times"></i></a>
+      <a href="#!" class="waves-effect waves-green btn" id="modal__modify-record__button-set-date">指定した日のデータを表示</a>
+    </div>
+  </div>
+
+  <!-- <input type="text" class="datepicker" id="test-datepicker"> -->
 
   <div class="modal" id="modal__report__day__modify-record">
     <div class="modal-content">
@@ -609,42 +649,7 @@
     </div>
   </div>
 
-  <div class="modal" id="modal__modify-record">
-    <div class="modal-content padding-side-little">
-      <h5>修正したいデータの日時を選択</h5>
-      <div class="input-field margin-top-30px" id="modal__modify-record__datepicker__datepicker__input-field">
-        <input type="text" class="datepicker" id="modal__modify-record__datepicker__datepicker__input">
-        <label>日付</label>
-      </div>
-      <h5 id="selected-date"></h5>
-      <table class="centered" id="modal__modify-record__table">
-        <thead>
-          <tr>
-            <th>カテゴリー</th>
-            <th>用途</th>
-            <th>金額</th>
-            <th>支払い方法</th>
-          </tr>
-        </thead>
-        <template>
-          <tbody>
-            <tr class="modal-trigger" href="#modal__report__day__modify-record">
-              <td>--</td>
-              <td>--</td>
-              <td>--</td>
-              <td>--</td>
-            </tr>
-          </tbody>
-        </template>
-      </table>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="modal__modify-record__button-cancel"><i class="fas fa-times"></i></a>
-      <a href="#!" class="waves-effect waves-green btn" id="modal__modify-record__button-set-date">指定した日のデータを表示</a>
-    </div>
-  </div>
-
-  <div class="modal" id="modal__chart-limit-progress">
+  <!-- <div class="modal" id="modal__chart-limit-progress">
     <div class="modal-content">
       <h5>目標額を設定</h5>
       <div class="input-field">
@@ -656,7 +661,7 @@
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">取り消し</a>
       <a href="#!" class="modal-close waves-effect waves-green btn" id="modal__chart-limit-progress__button-decide">決定</a>
     </div>
-  </div>
+  </div> -->
   <!-- Modals -->
 
 

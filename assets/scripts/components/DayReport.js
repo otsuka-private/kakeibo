@@ -55,6 +55,11 @@ export class DayReport {
       container.append(clone);
     }
 
+    const descriptionPhrase = document.getElementById('report__day__today__desription-phrase--modify');
+    const showedRecords = document.querySelectorAll('#report__day__today__table tbody');
+    if (showedRecords.length == 0) {
+      descriptionPhrase.classList.add('display-none');
+    }
     const todayReportSpanOut = document.getElementById('day-report__span-out');
     const todayReportSpanIn = document.getElementById('day-report__span-in');
     todayReportSpanOut.textContent = todaySumOut;
@@ -203,9 +208,23 @@ export class DayReport {
           classes: 'toast-problem'
         });
         return;
+      } else if (datepicker.value.trim() == sessionStorage.getItem('selected_date_of_modal_modify')) {
+        M.toast({
+          html: '選択された日の明細はすでに表示されています。',
+          displayLength: 3000,
+          classes: 'toast-problem'
+        });
+        return;
       }
-      const selectedDateTitle = modal.querySelector('#selected-date');
-      selectedDateTitle.textContent = datepicker.value;
+      sessionStorage.setItem('selected_date_of_modal_modify', datepicker.value.trim());
+      const previoudlyShowedRecords = document.querySelectorAll('#modal__modify-record__table tbody');
+      previoudlyShowedRecords.forEach(element => {
+        element.remove();
+      });
+      const descriptionPhrase = document.getElementById('modal__modify-record__description-phrase');
+      descriptionPhrase.textContent = 'データをタップすると修正できます';
+      const modalTitle = document.querySelector('#modal__modify-record h5');
+      modalTitle.textContent = '明細表';
       const dateInfoArray = datepicker.value.split('/');
       const selectedDateRecords = recordDataObject[dateInfoArray[0]][+dateInfoArray[1]-1][+dateInfoArray[2]];
       const keys = Object.keys(selectedDateRecords);
@@ -231,6 +250,15 @@ export class DayReport {
           });
         }
         container.append(clone);
+      }
+      const showedRecords = document.querySelectorAll('#modal__modify-record__table tbody');
+      if (showedRecords.length == 0) {
+        M.toast({
+          html: '選択された日にはデータがありません。',
+          displayLength: 3000,
+          classes: 'toast-problem'
+        });
+        descriptionPhrase.textContent = '日付を選ぶと下に明細が表示されます。';
       }
       const trs = modal.querySelectorAll('#modal__modify-record__table tbody tr');
       trs.forEach(element => {

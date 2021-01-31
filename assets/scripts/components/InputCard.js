@@ -188,6 +188,7 @@ export class InputCard {
       const input = inputField.querySelector('input');
 
       addCategoryButton.textContent = '決定';
+      addCategoryButton.classList.add('pulse');
 
       if (input.value.trim()) {
         const inputValue = document.getElementById('modal__input-card__setting__form-category__template-input__input-field-__input').value.trim();
@@ -210,6 +211,7 @@ export class InputCard {
       const input = inputField.querySelector('input');
 
       addHowtopayButton.textContent = '決定';
+      addHowtopayButton.classList.add('pulse');
 
       if (input.value.trim()) {
         const inputValue = document.getElementById('input-card__setting-modal__input-add-howtopay').value.trim();
@@ -299,15 +301,4 @@ export class InputCard {
       return true;
     }
   }
-
-  // clearInputValue() {
-  //   $('#input-card__how-much').val('');
-  //   $('#input-card__how-much').next().removeClass('active');
-  //   $('#input-card__things').val('');
-  //   $('#input-card__things').next().removeClass('active');
-  //   $('#input-card__select-category').prop('selectedIndex', 0);
-  //   $('#input-card__select-category').formSelect();
-  //   $('#input-card__select-how-to-pay').prop('selectedIndex', 0);
-  //   $('#input-card__select-how-to-pay').formSelect();
-  // }
 }

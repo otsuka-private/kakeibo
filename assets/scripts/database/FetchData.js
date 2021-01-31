@@ -47,6 +47,7 @@ export class FetchData {
     }
 
     sessionStorage.setItem('is_modal_for_modify', false);
+    sessionStorage.setItem('selected_date_of_modal_modify', false);
   }
 
   showToast() {
