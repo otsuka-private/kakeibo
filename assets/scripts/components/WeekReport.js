@@ -166,9 +166,12 @@ export class WeekReport {
       thisWeekOutValues.push(weekDataTemporaryObject.thisWeek[i].out);
       thisWeekInValues.push(weekDataTemporaryObject.thisWeek[i].in);
       if (i == 6) {
-        thisWeekOutValues.push(weekDataTemporaryObject.thisWeek[0].out);
-        thisWeekInValues.push(weekDataTemporaryObject.thisWeek[0].in);
-        break;
+        const todayDate = new Date().getDay;
+        if (todayDate == 0) {
+          thisWeekOutValues.push(weekDataTemporaryObject.thisWeek[0].out);
+          thisWeekInValues.push(weekDataTemporaryObject.thisWeek[0].in);
+          break;
+        }
       }
     }
     chartFunction.drawChartBar('report__week__this-week__card-bar-out', thisWeekOutValues, 'out', 'week');
