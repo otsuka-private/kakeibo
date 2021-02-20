@@ -11,7 +11,7 @@ export class InputCard {
   }
 
   initializeInputCardContent() {
-    this.setTodayAsDefaultAtDatepicker();
+    this.setDefaultDate();
     this.initializeCategoryModal();
     this.initializeHowtopayModal();
     this.addEventListenerToCardAddBtn();
@@ -19,14 +19,22 @@ export class InputCard {
 
   // initializing input card content below
 
-  setTodayAsDefaultAtDatepicker() {
-    const date = new Date();
-    const todayDate = date.getDate();
-    const thisMonth = +date.getMonth() + 1;
-    const thisYear = date.getFullYear();
+  setDefaultDate() {
+    const today = new Date();
+    let date = today.getDate();
+    let month = +today.getMonth() + 1;
+    let year = today.getFullYear();
+
+    const isDefaultDateYesterday = localStorage.getItem('default_date_yesterday');
+    if (isDefaultDateYesterday == 'true') {
+      today.setDate(today.getDate() - 1);
+      year = today.getFullYear();
+      month = today.getMonth() + 1;
+      date = today.getDate();
+    }
 
     const datepickerInput = document.getElementById('input-card__input-date');
-    datepickerInput.value = `${thisYear}/${thisMonth}/${todayDate}`;
+    datepickerInput.value = `${year}/${month}/${date}`;
     const datepickerLabel = document.getElementById('input-card__input-date-label');
     datepickerLabel.classList.add('active');
   }
@@ -145,6 +153,7 @@ export class InputCard {
   initializeSettingModal() {
     this.printUserCategoryOptions();
     this.printUserHowtopayOptions();
+    this.checkDefaultDateCheckbox();
     this.addEventListenerToModalAddOptionsButton();
     this.addEventListenerToModalAddButton();
   }
@@ -173,6 +182,14 @@ export class InputCard {
       clone.querySelector('span').textContent = userHowtopayOptionsArray[i];
       container.append(clone);
     }
+  }
+
+  checkDefaultDateCheckbox() {
+    const defaultDateCheckbox = document.getElementById('modal__input-card__setting__checkbox-default-date-yesterday');
+      const isDefaultDateYesterday = localStorage.getItem('default_date_yesterday');
+      if (isDefaultDateYesterday == 'true') {
+        defaultDateCheckbox.setAttribute('checked', 'checked');
+      }
   }
 
   addEventListenerToModalAddOptionsButton() {
@@ -245,6 +262,20 @@ export class InputCard {
           const checkedOptionsName = checkboxHowtopayOptions[i].nextElementSibling.textContent;
           checkedHowtopayOptionsArray.push(checkedOptionsName);
         }
+      }
+
+      const defaultDateCheckbox = document.getElementById('modal__input-card__setting__checkbox-default-date-yesterday');
+      const isDefaultDateYesterday = localStorage.getItem('default_date_yesterday');
+      if (isDefaultDateYesterday == 'true') {
+        defaultDateCheckbox.setAttribute('checked', checked);
+      } else {
+        defaultDateCheckbox.setAttribute('checked', '');
+      }
+
+      if (defaultDateCheckbox.checked) {
+        localStorage.setItem('default_date_yesterday', true);
+      } else {
+        localStorage.setItem('default_date_yesterday', false);
       }
 
       localStorage.setItem('user_category_options', checkedCategoryOptionsArray);
