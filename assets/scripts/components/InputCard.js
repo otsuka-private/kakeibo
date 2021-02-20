@@ -265,12 +265,6 @@ export class InputCard {
       }
 
       const defaultDateCheckbox = document.getElementById('modal__input-card__setting__checkbox-default-date-yesterday');
-      const isDefaultDateYesterday = localStorage.getItem('default_date_yesterday');
-      if (isDefaultDateYesterday == 'true') {
-        defaultDateCheckbox.setAttribute('checked', checked);
-      } else {
-        defaultDateCheckbox.setAttribute('checked', '');
-      }
 
       if (defaultDateCheckbox.checked) {
         localStorage.setItem('default_date_yesterday', true);
